@@ -4,7 +4,7 @@
 
 This project studies **direct Vietnamese-to-English speech translation for online news and commentary audio**:
 
-<img width="866" height="24" alt="image" src="https://github.com/user-attachments/assets/ee985d22-58f4-49fb-ae87-3f51daa0faf0" />
+<img width="264" height="29" alt="image" src="https://github.com/user-attachments/assets/efd7e532-1cf4-4873-9de7-2083eb496b28" />
 
 The system receives a Vietnamese audio clip and directly generates its English translation, without producing an intermediate Vietnamese transcript.
 
@@ -22,13 +22,14 @@ The objective is therefore not merely to maximize a leaderboard score. It is to 
 
 A conventional speech-translation system uses two stages:
 
-
+<img width="407" height="31" alt="image" src="https://github.com/user-attachments/assets/95b3354a-5393-4ce6-afcc-884bb5af54f9" />
 
 This cascaded design is modular and easier to debug, but the translation model can only operate on the transcript produced by the ASR system. Recognition errors—particularly in names, numbers, accents, code-switching, or noisy speech—may therefore propagate into the final translation.
 
 This project instead investigates direct translation:
 
-<img width="859" height="26" alt="image" src="https://github.com/user-attachments/assets/4df0919a-8b10-47b0-958f-019f74d29c22" />
+<img width="387" height="29" alt="image" src="https://github.com/user-attachments/assets/198d09d2-4b4f-4586-ae4a-92c406f557d9" />
+
 
 
 A direct model is trained or adapted using paired Vietnamese audio and English text. It can optimize the final translation objective without committing to an explicit Vietnamese transcript between the two stages.
@@ -66,17 +67,18 @@ Additional data should be selected according to its similarity to the target dom
 
 Translation quality is evaluated using **corpus-level BLEU-4** between the generated English translations and the reference translations.
 
-BLEU combines clipped (n)-gram precision for $n=1$,$\ldots$,$4$ with a brevity penalty:
+BLEU combines clipped (n)-gram precision for n=1,...,4 with a brevity penalty:
 
-<img width="851" height="32" alt="image" src="https://github.com/user-attachments/assets/6f715014-47bf-4f25-90cc-2ac9727fa95b" />
+<img width="377" height="30" alt="image" src="https://github.com/user-attachments/assets/fb30ea72-7c53-4d35-8434-352dd6f696eb" />
 
 
 where p_n is the clipped precision of generated n-grams and
 
-<img width="849" height="33" alt="image" src="https://github.com/user-attachments/assets/566e2607-8c76-4dd0-a145-aca59ecddfb3" />
+<img width="442" height="39" alt="image" src="https://github.com/user-attachments/assets/ae6cd9e5-2504-4bb5-b325-168335183545" />
 
 
-Here, $c$ is the total generated length and $r$ is the effective reference length. The brevity penalty prevents a system from obtaining a high precision score by producing translations that are systematically too short. If the generated translations are at least as long as the references, then $\operatorname{BP}=1$, so no penalty is applied. If they are shorter, then $\operatorname{BP} < 1$, reducing the final BLEU score.
+
+Here, c is the total generated length and r is the effective reference length. The brevity penalty prevents a system from obtaining a high precision score by producing translations that are systematically too short. If the generated translations are at least as long as the references, then BP=1, so no penalty is applied. If they are shorter, then BP < 1, reducing the final BLEU score.
 
 The implementation uses:
 
