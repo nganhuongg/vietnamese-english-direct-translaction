@@ -4,9 +4,7 @@
 
 This project studies **direct Vietnamese-to-English speech translation for online news and commentary audio**:
 
-$
-f:\text{Vietnamese audio waveform}\rightarrow\text{English text}
-$
+<img width="866" height="24" alt="image" src="https://github.com/user-attachments/assets/ee985d22-58f4-49fb-ae87-3f51daa0faf0" />
 
 The system receives a Vietnamese audio clip and directly generates its English translation, without producing an intermediate Vietnamese transcript.
 
@@ -24,23 +22,14 @@ The objective is therefore not merely to maximize a leaderboard score. It is to 
 
 A conventional speech-translation system uses two stages:
 
-$
-\text{Vietnamese audio}
-\xrightarrow{\text{ASR}}
-\text{Vietnamese transcript}
-\xrightarrow{\text{MT}}
-\text{English translation}
-$
+
 
 This cascaded design is modular and easier to debug, but the translation model can only operate on the transcript produced by the ASR system. Recognition errors—particularly in names, numbers, accents, code-switching, or noisy speech—may therefore propagate into the final translation.
 
 This project instead investigates direct translation:
 
-$
-\text{Vietnamese audio}
-\xrightarrow{\text{single model}}
-\text{English translation}
-$
+<img width="859" height="26" alt="image" src="https://github.com/user-attachments/assets/4df0919a-8b10-47b0-958f-019f74d29c22" />
+
 
 A direct model is trained or adapted using paired Vietnamese audio and English text. It can optimize the final translation objective without committing to an explicit Vietnamese transcript between the two stages.
 
@@ -79,24 +68,13 @@ Translation quality is evaluated using **corpus-level BLEU-4** between the gener
 
 BLEU combines clipped (n)-gram precision for $n=1$,$\ldots$,$4$ with a brevity penalty:
 
-$
-\operatorname{BP}
-\cdot
-\exp\left(
-\frac{1}{4}
-\sum_{n=1}^{4}\log p_n
-\right),
-$
+<img width="851" height="32" alt="image" src="https://github.com/user-attachments/assets/6f715014-47bf-4f25-90cc-2ac9727fa95b" />
 
-where $p_n$ is the clipped precision of generated $n$-grams and
 
-$$
-\operatorname{BP} =
-\begin{cases}
-1, & \text{if } c > r, \\
-\exp\left(1-\frac{r}{c}\right), & \text{if } c \le r,
-\end{cases}
-$$
+where p_n is the clipped precision of generated n-grams and
+
+<img width="849" height="33" alt="image" src="https://github.com/user-attachments/assets/566e2607-8c76-4dd0-a145-aca59ecddfb3" />
+
 
 Here, $c$ is the total generated length and $r$ is the effective reference length. The brevity penalty prevents a system from obtaining a high precision score by producing translations that are systematically too short. If the generated translations are at least as long as the references, then $\operatorname{BP}=1$, so no penalty is applied. If they are shorter, then $\operatorname{BP} < 1$, reducing the final BLEU score.
 
